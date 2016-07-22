@@ -8,7 +8,7 @@ import javax.ws.rs.core.UriInfo;
 
 
 @Path("/user")
-public class UserService {
+public class UserResource {
 	
 	@Path("/hello")
 	@GET
