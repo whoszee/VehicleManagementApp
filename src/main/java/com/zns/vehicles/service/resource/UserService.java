@@ -1,4 +1,4 @@
-package com.zns.vehicles.service;
+package com.zns.vehicles.service.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
