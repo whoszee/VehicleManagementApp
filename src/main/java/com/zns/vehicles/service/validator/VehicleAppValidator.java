@@ -15,7 +15,8 @@ public class VehicleAppValidator {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	public boolean validateNewUser(CreateUserRequest userRequest) {
-
+		
+		log.info("inside validator>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		try{
 		validateName(userRequest.getPersonFName());
 		validateName(userRequest.getPersonLName());

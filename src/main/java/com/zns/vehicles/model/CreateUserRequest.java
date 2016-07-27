@@ -1,22 +1,20 @@
 package com.zns.vehicles.model;
 
-import com.owlike.genson.annotation.JsonProperty;
-
 public class CreateUserRequest {
 
-	@JsonProperty("username")
+	
 	private String username;
-	@JsonProperty("password")
+	
 	private String password;
-	@JsonProperty("personFName")
+	
 	private String personFName;
-	@JsonProperty("personLName")
+	
 	private String personLName;
-	@JsonProperty("personDOB")
+	
 	private String personDOB;
-	@JsonProperty("personEmail")
+	
 	private String personEmail;
-	@JsonProperty("personZip")
+	
 	private String personZipCode;
 
 	public String getPersonZipCode() {
@@ -73,5 +71,12 @@ public class CreateUserRequest {
 
 	public void setPersonEmail(String personEmail) {
 		this.personEmail = personEmail;
+	}
+	
+	@Override
+	public String toString() {
+		return "CreateUserRequest [username=" + username + ", password=" + password + ", personFName=" + personFName
+				+ ", personLName=" + personLName + ", personDOB=" + personDOB + ", personEmail=" + personEmail
+				+ ", personZipCode=" + personZipCode + "]";
 	}
 }

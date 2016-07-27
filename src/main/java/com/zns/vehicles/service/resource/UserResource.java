@@ -9,19 +9,29 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.sun.jersey.spi.inject.Inject;
 import com.zns.vehicles.model.CreateUserRequest;
-import com.zns.vehicles.model.UserResponse;
 import com.zns.vehicles.service.api.VehicleAppService;
-import com.zns.vehicles.service.validator.VehicleAppValidator;
+import com.zns.vehicles.service.api.impl.VehicleAppServiceImpl;
+import com.zns.vehicles.util.RequestDeserializer;
+
 
 @Path("/user")
 @Produces("application/json")
 @Consumes("application/json")
 public class UserResource {
 
-	VehicleAppService service;
+	private Logger log = LoggerFactory.getLogger(getClass());
+
+	@Autowired
+	private VehicleAppService service = (VehicleAppService) new VehicleAppServiceImpl();
+	private CreateUserRequest request;
+	RequestDeserializer reqDeserializer = new RequestDeserializer();
 
 	@Path("/hello")
 	@GET
@@ -63,10 +73,14 @@ public class UserResource {
 
 	@Path("/create")
 	@POST
-	//@Produces("text/html")
-	public void createNewUser(@RequestBody CreateUserRequest userRequest) {
+	// @Produces("text/html")
+	public void createNewUser(@RequestBody String userRequest) {
 
-		service.createUser(userRequest);
-
+		log.info("Creating new user... >>>>>>>>> ");
+		
+		log.info("Incoming request : " + reqDeserializer.convertRequest(userRequest).toString()
+				);
+		service.createUser(reqDeserializer.convertRequest(userRequest));
+		//return reqDeserializer.convertRequest(userRequest).toString();
 	}
 }
