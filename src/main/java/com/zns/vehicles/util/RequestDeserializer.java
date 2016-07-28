@@ -9,18 +9,18 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zns.vehicles.model.CreateUserRequest;
+import com.zns.vehicles.model.User;
 
 public class RequestDeserializer {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
-	private CreateUserRequest request;
-	public CreateUserRequest convertRequest(String json) {
+	private User request;
+	public User convertUserRequest(String json) {
 
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-			request = mapper.readValue(json, CreateUserRequest.class);
+			request = mapper.readValue(json, User.class);
 		} catch (JsonGenerationException e) {
 			log.error(e.toString());
 		} catch (JsonParseException e) {

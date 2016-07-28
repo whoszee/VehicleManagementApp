@@ -16,7 +16,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientException;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoDatabase;
-import com.zns.vehicles.model.CreateUserRequest;
+import com.zns.vehicles.model.User;
 import com.zns.vehicles.service.dao.UserDAO;
 import com.zns.vehicles.util.PropReader;
 
@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
 	private final static String USER = "mongo.collection.user";
 
 	@Override
-	public void saveUser(CreateUserRequest userRequest) {
+	public void saveUser(User userRequest) {
 		// TODO Auto-generated method stub
 		MongoClient mongoClient = null;
 		try {

@@ -8,27 +8,64 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zns.vehicles.model.CreateUserRequest;
+import com.zns.vehicles.model.Car;
+import com.zns.vehicles.model.Motorcycle;
+import com.zns.vehicles.model.Truck;
+import com.zns.vehicles.model.User;
 
 public class VehicleAppValidator {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
-	public boolean validateNewUser(CreateUserRequest userRequest) {
-		
+	public boolean validateNewUser(User userRequest) {
+
 		log.info("inside validator>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		try{
-		validateName(userRequest.getPersonFName());
-		validateName(userRequest.getPersonLName());
-		validatePassword(userRequest.getPassword());
-		isUsernameExists(userRequest.getUsername());
-		validateZip(userRequest.getPersonZipCode());
-		isValidEmailAddress(userRequest.getPersonEmail());
-		validateDate(userRequest.getPersonDOB());
-		return true;
-		} catch (Exception ex){
+		try {
+			validateName(userRequest.getPersonFName());
+			validateName(userRequest.getPersonLName());
+			validatePassword(userRequest.getPassword());
+			isUsernameExists(userRequest.getUsername());
+			validateZip(userRequest.getPersonZipCode());
+			isValidEmailAddress(userRequest.getPersonEmail());
+			validateDate(userRequest.getPersonDOB());
+			return true;
+		} catch (Exception ex) {
 			log.error("Input validation failed.");
 		}
+		return false;
+	}
+
+	public boolean validateCar(Car request) {
+
+		if (request != null && !request.getMake().isEmpty() && request.getCylinderCount() > 1 && request.getDoors() > 1
+				&& !request.getDrivetrain().isEmpty() && !request.getExteriorColor().isEmpty()
+				&& !request.getInteriorColor().isEmpty()) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean validateTruck(Truck request) {
+
+		if (request != null && !request.getMake().isEmpty() && request.getCylinderCount() > 1 && request.getDoors() > 1
+				&& !request.getDrivetrain().isEmpty() && !request.getExteriorColor().isEmpty()
+				&& !request.getInteriorColor().isEmpty() && !request.getVehicleClassification().isEmpty()) {
+
+			return true;
+
+		}
+
+		return false;
+	}
+
+	public boolean validateMotorcycle(Motorcycle request){
+		
+		if (request!=null && !request.getLicenseClass().isEmpty() && !request.getMake().isEmpty() && !request.getModel().isEmpty()) {
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -71,14 +108,13 @@ public class VehicleAppValidator {
 	}
 
 	private boolean validateDate(String date) {
-	    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-	    try {
-	        sdf.parse(date);
-	        return true;
-	    }
-	    catch(ParseException ex) {
-	        log.error("Invalid DOB. Should be in 'dd-MM-yyyy' format.");
-	    	return false;
-	    }
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		try {
+			sdf.parse(date);
+			return true;
+		} catch (ParseException ex) {
+			log.error("Invalid DOB. Should be in 'dd-MM-yyyy' format.");
+			return false;
+		}
 	}
 }

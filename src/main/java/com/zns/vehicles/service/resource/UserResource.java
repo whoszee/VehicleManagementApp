@@ -15,11 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.sun.jersey.spi.inject.Inject;
-import com.zns.vehicles.model.CreateUserRequest;
+import com.zns.vehicles.model.User;
 import com.zns.vehicles.service.api.VehicleAppService;
 import com.zns.vehicles.service.api.impl.VehicleAppServiceImpl;
 import com.zns.vehicles.util.RequestDeserializer;
-
 
 @Path("/user")
 @Produces("application/json")
@@ -30,7 +29,7 @@ public class UserResource {
 
 	@Autowired
 	private VehicleAppService service = (VehicleAppService) new VehicleAppServiceImpl();
-	private CreateUserRequest request;
+	private User request;
 	RequestDeserializer reqDeserializer = new RequestDeserializer();
 
 	@Path("/hello")
@@ -55,14 +54,6 @@ public class UserResource {
 		return "the name is " + param;
 	}
 
-	@Path("/{username}")
-	@GET
-	@Produces("text/html")
-	public String getUser(@PathParam("username") String userName) {
-
-		return "Welcome to " + userName + "'s profile page...";
-	}
-
 	@Path("/{username}/vehicles")
 	@GET
 	@Produces("text/html")
@@ -71,16 +62,32 @@ public class UserResource {
 		return "Welcome to " + userName + "'s vehicle listing page...";
 	}
 
+	@Path("/{username}")
+	@GET
+	@Produces("text/html")
+	public String getUser(@PathParam("username") String userName) {
+
+		return "Welcome to " + userName + "'s profile page...";
+	}
+
 	@Path("/create")
 	@POST
 	// @Produces("text/html")
-	public void createNewUser(@RequestBody String userRequest) {
-
-		log.info("Creating new user... >>>>>>>>> ");
+	public String createNewUser(@RequestBody String userRequest) {
 		
-		log.info("Incoming request : " + reqDeserializer.convertRequest(userRequest).toString()
-				);
-		service.createUser(reqDeserializer.convertRequest(userRequest));
-		//return reqDeserializer.convertRequest(userRequest).toString();
+		log.info("Creating new user... >>>>>>>>> ");
+		service.createUser(reqDeserializer.convertUserRequest(userRequest));
+		
+		return "The account for " + reqDeserializer.convertUserRequest(userRequest).getUsername() + " has been created...";
+	}
+
+	@Path("/{username}/vehicles/create")
+	@POST
+	@Produces("text/html")
+	public String createNewVehicle(@PathParam("username") String userName, @RequestBody String vehicleRequest) {
+
+		log.info("Creating new vehicle entry... >>>>>>>>>>>");
+
+		return userName + "'s vehicle entry has been created...";
 	}
 }
