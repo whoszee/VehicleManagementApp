@@ -13,7 +13,6 @@ public class VehicleAppServiceImpl implements VehicleAppService {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
-	
 	VehicleAppValidator validator = new VehicleAppValidator();
 
 	UserDAO dao = new UserDAOImpl();
@@ -22,15 +21,15 @@ public class VehicleAppServiceImpl implements VehicleAppService {
 	public void createUser(CreateUserRequest userRequest) {
 
 		log.info("submitting request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-		
+
 		if (validator.validateNewUser(userRequest)) {
 			log.info("Validation for new user details has completed successfully.");
 			dao.saveUser(userRequest);
-			log.info("Request for " + userRequest.getUsername() + " has been submitted for persistence...");
+			log.info("Persistence for " + userRequest.getUsername() + " has been completed successfully...");
 		} else {
 			log.error("Validation has failed...");
 		}
-			
+
 	}
 
 }
