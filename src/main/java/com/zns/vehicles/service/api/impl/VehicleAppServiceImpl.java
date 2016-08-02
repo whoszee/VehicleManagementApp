@@ -24,25 +24,24 @@ public class VehicleAppServiceImpl implements VehicleAppService {
 	VehicleDAO vehicleDAO = new VehicleDAOImpl();
 
 	@Override
-	public void createUser(User userRequest) {
+	public String createUser(User userRequest) {
 
 		log.info("submitting create user request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-		
+
 		if (validator.validateNewUser(userRequest)) {
 			log.info("Validation for new user details has completed successfully and user will be created.");
 			dao.saveUser(userRequest);
-			log.info("Persistence for " + userRequest.getUsername() + " has been completed successfully...");
+			return ("Persistence for " + userRequest.getUsername() + " has been completed successfully...");
 		} else {
-			log.error("New User Validation has failed...");
+			return ("Validation has failed and user account will not be created");
 		}
-
 	}
 
 	@Override
 	public void createVehicle(Car vehicleRequest) {
 		// TODO Auto-generated method stub
 		log.info("submitting create car request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-		if (validator.validateCar(vehicleRequest)){
+		if (validator.validateCar(vehicleRequest)) {
 			log.info("Validation for new car entry has completed successfully");
 			vehicleDAO.saveVehicle(vehicleRequest);
 		}
@@ -52,7 +51,7 @@ public class VehicleAppServiceImpl implements VehicleAppService {
 	public void createVehicle(Motorcycle vehicleRequest) {
 		// TODO Auto-generated method stub
 		log.info("submitting create motorcycle request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-		if (validator.validateMotorcycle(vehicleRequest)){
+		if (validator.validateMotorcycle(vehicleRequest)) {
 			log.info("Validation for new motorcycle entry has completed successfully");
 			vehicleDAO.saveVehicle(vehicleRequest);
 		}
@@ -62,7 +61,7 @@ public class VehicleAppServiceImpl implements VehicleAppService {
 	public void createVehicle(Truck vehicleRequest) {
 		// TODO Auto-generated method stub
 		log.info("submitting create truck request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-		if (validator.validateTruck(vehicleRequest)){
+		if (validator.validateTruck(vehicleRequest)) {
 			log.info("Validation for new truck entry has completed successfully");
 			vehicleDAO.saveVehicle(vehicleRequest);
 		}

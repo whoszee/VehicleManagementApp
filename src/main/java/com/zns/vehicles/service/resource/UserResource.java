@@ -77,9 +77,7 @@ public class UserResource {
 		
 		log.info("Creating new user... >>>>>>>>> ");
 		
-		service.createUser(reqDeserializer.convertUserRequest(userRequest));
-		
-		return "The account for " + reqDeserializer.convertUserRequest(userRequest).getUsername() + " has been created...";
+		return service.createUser(reqDeserializer.convertUserRequest(userRequest));
 	}
 
 	@Path("/{username}/vehicles/create")

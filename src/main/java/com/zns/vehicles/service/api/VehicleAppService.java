@@ -7,7 +7,7 @@ import com.zns.vehicles.model.User;
 
 public interface VehicleAppService {
 	
-	void createUser(User userRequest);
+	String createUser(User userRequest);
 	
 	void createVehicle (Car vehicleRequest);
 	void createVehicle (Motorcycle vehicleRequest);
