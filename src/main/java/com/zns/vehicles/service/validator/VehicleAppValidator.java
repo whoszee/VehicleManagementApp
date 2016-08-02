@@ -1,10 +1,7 @@
 package com.zns.vehicles.service.validator;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,26 +9,30 @@ import com.zns.vehicles.model.Car;
 import com.zns.vehicles.model.Motorcycle;
 import com.zns.vehicles.model.Truck;
 import com.zns.vehicles.model.User;
+import com.zns.vehicles.service.dao.UserDAO;
+import com.zns.vehicles.service.dao.impl.UserDAOImpl;
 
 public class VehicleAppValidator {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
+	UserDAO dao = new UserDAOImpl();
+
 	public boolean validateNewUser(User userRequest) {
 
-		log.info("inside validator>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		try {
-			validateName(userRequest.getPersonFName());
-			validateName(userRequest.getPersonLName());
-			validatePassword(userRequest.getPassword());
-			isUsernameExists(userRequest.getUsername());
-			validateZip(userRequest.getPersonZipCode());
-			isValidEmailAddress(userRequest.getPersonEmail());
-			validateDate(userRequest.getPersonDOB());
-			return true;
+
+			if (isUsernameExists(userRequest.getUsername()) && validateName(userRequest.getPersonLName())
+					&& validateName(userRequest.getPersonFName()) && validatePassword(userRequest.getPassword())
+					&& validateZip(userRequest.getPersonZipCode()) && isValidEmailAddress(userRequest.getPersonEmail())
+					&& validateDate(userRequest.getPersonDOB())) {
+				log.info("validation completed successfully");
+				return true;
+			}
 		} catch (Exception ex) {
 			log.error("Input validation failed.");
 		}
+		log.info("New user validation has failed and new user will not be created.");
 		return false;
 	}
 
@@ -60,12 +61,13 @@ public class VehicleAppValidator {
 		return false;
 	}
 
-	public boolean validateMotorcycle(Motorcycle request){
-		
-		if (request!=null && !request.getLicenseClass().isEmpty() && !request.getMake().isEmpty() && !request.getModel().isEmpty()) {
+	public boolean validateMotorcycle(Motorcycle request) {
+
+		if (request != null && !request.getLicenseClass().isEmpty() && !request.getMake().isEmpty()
+				&& !request.getModel().isEmpty()) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -79,7 +81,7 @@ public class VehicleAppValidator {
 	}
 
 	private boolean validatePassword(String field) {
-		if (field.length() > 3 && field.length() < 8) {
+		if (field.length() > 3 && field.length() < 9) {
 			return true;
 		}
 		log.error("Length for password should be between 4 and 8 characters");
@@ -95,9 +97,14 @@ public class VehicleAppValidator {
 	}
 
 	private boolean isUsernameExists(String userName) {
-		// TODO check mongo to see if this value exists in username field in
-		// user collection
-		return false;
+
+		if (!dao.checkUsernameExists(userName)) {
+			log.error("Username already exists, please choose another one...");
+			return false;
+		} else {
+			return true;
+		}
+
 	}
 
 	private boolean isValidEmailAddress(String email) {

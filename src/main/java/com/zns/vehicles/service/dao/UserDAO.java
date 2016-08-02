@@ -5,4 +5,6 @@ import com.zns.vehicles.model.User;
 public interface UserDAO {
 
 	void saveUser (final User userRequest);
+	
+	boolean checkUsernameExists(final String userName);
 }

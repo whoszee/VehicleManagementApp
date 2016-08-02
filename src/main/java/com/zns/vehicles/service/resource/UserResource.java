@@ -76,6 +76,7 @@ public class UserResource {
 	public String createNewUser(@RequestBody String userRequest) {
 		
 		log.info("Creating new user... >>>>>>>>> ");
+		
 		service.createUser(reqDeserializer.convertUserRequest(userRequest));
 		
 		return "The account for " + reqDeserializer.convertUserRequest(userRequest).getUsername() + " has been created...";

@@ -27,9 +27,9 @@ public class VehicleAppServiceImpl implements VehicleAppService {
 	public void createUser(User userRequest) {
 
 		log.info("submitting create user request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-
+		
 		if (validator.validateNewUser(userRequest)) {
-			log.info("Validation for new user details has completed successfully.");
+			log.info("Validation for new user details has completed successfully and user will be created.");
 			dao.saveUser(userRequest);
 			log.info("Persistence for " + userRequest.getUsername() + " has been completed successfully...");
 		} else {
