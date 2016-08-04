@@ -10,7 +10,7 @@ This application is currently in progess.
   Full CRUD w/ mongoDb (WIP)<br>
   Generate ID from sequence collection<br></i>
 
-Change log:
+<b>Update log:</b>
 
 <b><i>8/4/2016</b></i>
 
