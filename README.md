@@ -1,7 +1,7 @@
 # VehicleManagementApp
 
-This is a full stack application utilizing an AngularJS Front (TODO), Jersey WS implementation, and MongoDB. This application is currently a WIP.
-
+This is a full stack application utilizing an AngularJS Front (TODO), Jersey WS implementation, and MongoDB. 
+This application is currently in progess.
 
 
 Change log:
