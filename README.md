@@ -8,10 +8,10 @@ Change log:
 
 8/4/2016
 
-Completed 3 POST API's
-  > Create car for user
-  > Create truck for user
-  > Create motorcycle for user
+<b>Completed 3 POST API's</b>
+  > Create car for user,
+  > Create truck for user,
+  > Create motorcycle for user,
   
 7/25/2016
 
