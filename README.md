@@ -4,9 +4,10 @@ This is a full stack application utilizing an AngularJS Front (TODO), Jersey WS 
 This application is currently in progess.
 
 Features:
-  User role delegation (WIP)
-  Validations
-  Error handling
+  User role delegation (WIP)<br>
+  Data Validations<br>
+  Error handling<br>
+  Full CRUD w/ mongoDb (WIP)<br>
 
 Change log:
 
