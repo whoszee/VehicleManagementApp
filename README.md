@@ -23,3 +23,19 @@ This application is currently in progess.
 
 <b>Completed POST API</b>
   > Create new user
+
+<b>Pending API's:</b>
+<i>GET all vehicles for user<br>
+GET cars for user<br>
+GET trucks for user<br>
+GET motorcycles for user<br>
+
+UPDATE user details<br>
+UPDATE car details for user<br>
+UPDATE truck details for user<br>
+UPDATE motorcycle details for user<br>
+
+DELETE user<br>
+DELETE car for user<br>
+DELETE truck for user<br>
+DELETE motorcycle for user<br>
