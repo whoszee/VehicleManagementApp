@@ -3,7 +3,7 @@
 This is a full stack application utilizing an AngularJS Front (TODO), Jersey WS implementation, and MongoDB. 
 This application is currently in progess.
 
-<b>Features:</b><br>
+<b>Features:</b><br><br>
   <i>User role delegation (WIP)<br>
   Data Validations<br>
   Error handling<br>
