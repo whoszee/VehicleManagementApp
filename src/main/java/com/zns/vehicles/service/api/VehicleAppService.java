@@ -9,8 +9,8 @@ public interface VehicleAppService {
 	
 	String createUser(User userRequest);
 	
-	void createVehicle (Car vehicleRequest);
-	void createVehicle (Motorcycle vehicleRequest);
-	void createVehicle (Truck vehicleRequest);
+	String createVehicle (String user, Car vehicleRequest);
+	String createVehicle (String user, Motorcycle vehicleRequest);
+	String createVehicle (String user, Truck vehicleRequest);
 	
 }

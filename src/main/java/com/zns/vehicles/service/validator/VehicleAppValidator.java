@@ -22,61 +22,72 @@ public class VehicleAppValidator {
 
 		try {
 
-			if (isUsernameExists(userRequest.getUsername()) && validateName(userRequest.getPersonLName())
+			if (!usernameValidation(userRequest.getUsername()) && validateName(userRequest.getPersonLName())
 					&& validateName(userRequest.getPersonFName()) && validatePassword(userRequest.getPassword())
 					&& validateZip(userRequest.getPersonZipCode()) && isValidEmailAddress(userRequest.getPersonEmail())
 					&& validateDate(userRequest.getPersonDOB())) {
-				log.info("validation completed successfully");
+				log.info("user data validation completed successfully");
 				return true;
 			}
 		} catch (Exception ex) {
 			log.error("Input validation failed.");
 		}
-		log.info("New user validation has failed and new user will not be created.");
+		log.info("New user data validation has failed and new user will not be created.");
 		return false;
 	}
 
 	public boolean validateCar(Car request) {
 
-		if (request != null && !request.getMake().isEmpty() && request.getCylinderCount() > 1 && request.getDoors() > 1
-				&& !request.getDrivetrain().isEmpty() && !request.getExteriorColor().isEmpty()
-				&& !request.getInteriorColor().isEmpty()) {
-
-			return true;
+		try {
+			if (request != null && !request.getMake().isEmpty() && request.getCylinderCount() > 1
+					&& request.getDoors() > 1 && !request.getDrivetrain().isEmpty()
+					&& !request.getExteriorColor().isEmpty() && !request.getInteriorColor().isEmpty()) {
+				return true;
+			}
+		} catch (NullPointerException e) {
+			log.error("Mandatory required fields were blank...");
+			return false;
 		}
-
 		return false;
 	}
 
 	public boolean validateTruck(Truck request) {
 
-		if (request != null && !request.getMake().isEmpty() && request.getCylinderCount() > 1 && request.getDoors() > 1
-				&& !request.getDrivetrain().isEmpty() && !request.getExteriorColor().isEmpty()
-				&& !request.getInteriorColor().isEmpty() && !request.getVehicleClassification().isEmpty()) {
-
-			return true;
-
+		try {
+			if (request != null && !request.getMake().isEmpty() && request.getCylinderCount() > 1
+					&& request.getDoors() > 1 && !request.getDrivetrain().isEmpty()
+					&& !request.getExteriorColor().isEmpty() && !request.getInteriorColor().isEmpty()
+					&& !request.getVehicleClassification().isEmpty() && usernameValidation(request.getUserName())) {
+				return true;
+			}
+		} catch (NullPointerException e) {
+			log.error("Mandatory required fields were blank...");
+			return false;
 		}
-
 		return false;
 	}
 
 	public boolean validateMotorcycle(Motorcycle request) {
 
-		if (request != null && !request.getLicenseClass().isEmpty() && !request.getMake().isEmpty()
-				&& !request.getModel().isEmpty()) {
-			return true;
+		try {
+			if (request != null && !request.getLicenseClass().isEmpty() && !request.getMake().isEmpty()
+					&& !request.getModel().isEmpty() && request.getUserName() != null
+					&& usernameValidation(request.getUserName())) {
+				return true;
+			}
+		} catch (NullPointerException e) {
+			log.error("Mandatory required fields were blank...");
+			return false;
 		}
-
 		return false;
 	}
 
 	private boolean validateName(String name) {
 
-		if (!name.isEmpty() && name.length() > 5) {
+		if (!name.isEmpty() && name.length() > 4) {
 			return true;
 		}
-		log.error("Name entry of " + name + " did not pass validation. Try again...");
+		log.error("Name entry of " + name + " requires more than 4 characters.");
 		return false;
 	}
 
@@ -96,13 +107,15 @@ public class VehicleAppValidator {
 		return false;
 	}
 
-	private boolean isUsernameExists(String userName) {
+	// returns true if username exists in db
+	private boolean usernameValidation(String userName) {
 
-		if (!dao.checkUsernameExists(userName)) {
+		if (dao.checkUsernameExists(userName)) {
 			log.error("Username already exists, please choose another one...");
-			return false;
-		} else {
 			return true;
+		} else {
+			log.info("username: " + userName + " is unique");
+			return false;
 		}
 
 	}

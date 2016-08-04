@@ -2,6 +2,33 @@ package com.zns.vehicles.model;
 
 public class Car {
 
+	private String vehicleType;
+	public String getVehicleType() {
+		return vehicleType;
+	}
+
+	public void setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
+	}
+
+	private String userName;
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	private String vehicleId;
+	public String getVehicleId() {
+		return vehicleId;
+	}
+
+	public void setVehicleId(String object) {
+		this.vehicleId = object;
+	}
+
 	private String make;
 	private String model;
 	private Integer year;
@@ -118,4 +145,6 @@ public class Car {
 				+ drivetrain + ", licenseClass=" + licenseClass + ", transmission=" + transmission + ", cylinderCount="
 				+ cylinderCount + ", fuelType=" + fuelType + "]";
 	}
+
+	
 }

@@ -1,67 +1,69 @@
 package com.zns.vehicles.service.dao.impl;
 
-import java.util.Locale.Category;
-
-import org.bson.Document;
-import org.bson.conversions.Bson;
-
-import com.mongodb.Block;
+import java.net.UnknownHostException;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientException;
-import com.mongodb.MongoException;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.zns.vehicles.util.PropReader;
 
 public class Test {
 
-	private final static PropReader props = new PropReader();
+	private final static String DB_NAME = "MyTestDB";
+	private final static String TEST_COLLECTION = "testCollection";
+	private final static String COUNTERS_COLLECTION = "countersCollection";
 
-	private final static String HOST = "mongo.host";
-	private final static Integer PORT = 27017;
-	private final static String DB = "mongo.db";
-	private final static String USER = "mongo.collection.user";
+	public static DBCollection testCollection;
+	public static DBCollection countersCollection;
 
 	public static void main(String[] args) {
 
-		String userName = "mzeeshanr45";
-		System.out.println("prop:::::" + props.getProperty(USER));
-		dbUtil(props.getProperty(USER), userName);
-	}
+		MongoClient mongoClient = new MongoClient();
+		DB database = mongoClient.getDB(DB_NAME);
+		testCollection = database.getCollection(TEST_COLLECTION);
+		countersCollection = database.getCollection(COUNTERS_COLLECTION);
 
-	private static void dbUtil(String collection, String user) {
-		MongoClient mongoClient = null;
-		
-		try {
-			mongoClient = new MongoClient(props.getProperty(HOST), PORT);
-			MongoDatabase db = mongoClient.getDatabase("vehicleApp");
-			MongoCollection<Document> coll = db.getCollection("user");
-			System.out.println("looking for: " + user);
-			
-			Document query = new Document("username", user);
-			FindIterable<Document> search = coll.find(query);
-		    
-			if (search.iterator().hasNext()){
-				System.out.println("found stuff");
-			} else {
-				System.out.println("found nothing");
-			}
-
-		} catch (MongoClientException e) {
-			System.out.println("Error while connecting to DB...");
-			e.printStackTrace();
-		} catch (MongoException e) {
-			System.out.println("General mongo error");
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			System.out.println("Illegal argument exception...");
-			e.printStackTrace();
-		} finally {
-			// System.out.println("user request has been persisted
-			// sucessfully");
-			mongoClient.close();
+		if (countersCollection.count() == 0) {
+			createCountersCollection();
 		}
 
+		createTestCollection();
 	}
+
+	public static void createCountersCollection() {
+
+		BasicDBObject document = new BasicDBObject();
+		document.append("_id", "userid");
+		document.append("seq", 0);
+		countersCollection.insert(document);
+	}
+
+	public static Object getNextSequence(String name) {
+
+		BasicDBObject searchQuery = new BasicDBObject("_id", name);
+		BasicDBObject increase = new BasicDBObject("seq", 1);
+		BasicDBObject updateQuery = new BasicDBObject("$inc", increase);
+		DBObject result = countersCollection.findAndModify(searchQuery, null, null, false, updateQuery, true, false);
+
+		return result.get("seq");
+	}
+
+	public static void createTestCollection() {
+
+		BasicDBObject document = new BasicDBObject();
+		document.append("_id", getNextSequence("userid"));
+		document.append("name", "Sarah");
+		testCollection.insert(document);
+
+		document = new BasicDBObject();
+		document.append("_id", getNextSequence("userid"));
+		document.append("name", "Bob");
+		testCollection.insert(document);
+
+		document = new BasicDBObject();
+		document.append("_id", getNextSequence("userid"));
+		document.append("name", "Alex");
+		testCollection.insert(document);
+	}
+
 }

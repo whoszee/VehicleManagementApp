@@ -20,17 +20,15 @@ public class VehicleAppServiceImpl implements VehicleAppService {
 
 	VehicleAppValidator validator = new VehicleAppValidator();
 
-	UserDAO dao = new UserDAOImpl();
+	UserDAO userDao = new UserDAOImpl();
 	VehicleDAO vehicleDAO = new VehicleDAOImpl();
 
 	@Override
 	public String createUser(User userRequest) {
 
-		log.info("submitting create user request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-
 		if (validator.validateNewUser(userRequest)) {
 			log.info("Validation for new user details has completed successfully and user will be created.");
-			dao.saveUser(userRequest);
+			userDao.saveUser(userRequest);
 			return ("Persistence for " + userRequest.getUsername() + " has been completed successfully...");
 		} else {
 			return ("Validation has failed and user account will not be created");
@@ -38,32 +36,68 @@ public class VehicleAppServiceImpl implements VehicleAppService {
 	}
 
 	@Override
-	public void createVehicle(Car vehicleRequest) {
+	public String createVehicle(String user, Car vehicleRequest) {
 		// TODO Auto-generated method stub
-		log.info("submitting create car request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-		if (validator.validateCar(vehicleRequest)) {
-			log.info("Validation for new car entry has completed successfully");
-			vehicleDAO.saveVehicle(vehicleRequest);
+		vehicleRequest.setUserName(user);
+		log.info("checking if username exists for::::::::: " + user);
+
+		if (userDao.checkUsernameExists(user)) {
+			log.info("submitting create car request for validation");
+
+			if (validator.validateCar(vehicleRequest)) {
+				log.info("Validation for new car entry has completed successfully");
+				vehicleDAO.saveVehicle(vehicleRequest);
+				return "Car entry for " + vehicleRequest.getMake() + " " + vehicleRequest.getModel()
+						+ " has persisted successfully for " + user;
+			} else {
+				return "Data for car entry did not pass validation... this car will not be added.";
+			}
+		} else {
+			return "Did not find " + user + " in the db... this car cannot be added.";
 		}
 	}
 
 	@Override
-	public void createVehicle(Motorcycle vehicleRequest) {
+	public String createVehicle(String user, Motorcycle vehicleRequest) {
 		// TODO Auto-generated method stub
-		log.info("submitting create motorcycle request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-		if (validator.validateMotorcycle(vehicleRequest)) {
-			log.info("Validation for new motorcycle entry has completed successfully");
-			vehicleDAO.saveVehicle(vehicleRequest);
+		vehicleRequest.setUserName(user);
+		log.info("checking if username exists for::::::::: " + user);
+
+		if (userDao.checkUsernameExists(user)) {
+			log.info("submitting create moto request for validation");
+
+			if (validator.validateMotorcycle(vehicleRequest)) {
+				log.info("Validation for new motorcycle entry has completed successfully");
+				vehicleDAO.saveVehicle(vehicleRequest);
+				return "Moto entry for " + vehicleRequest.getMake() + " " + vehicleRequest.getModel()
+						+ " has persisted successfully for " + user;
+			} else {
+				return "Data for moto entry did not pass validation... this motorcycle will not be added.";
+			}
+		} else {
+			return "Did not find " + user + " in the db... this motorcycle cannot be added.";
 		}
 	}
 
 	@Override
-	public void createVehicle(Truck vehicleRequest) {
+	public String createVehicle(String user, Truck vehicleRequest) {
 		// TODO Auto-generated method stub
-		log.info("submitting create truck request for validation >>>>>>>>>>>>>>><<<<<<<<<<<<<<");
-		if (validator.validateTruck(vehicleRequest)) {
-			log.info("Validation for new truck entry has completed successfully");
-			vehicleDAO.saveVehicle(vehicleRequest);
+		vehicleRequest.setUserName(user);
+		log.info("checking if username exists for::::::::: " + user);
+
+		if (userDao.checkUsernameExists(user)) {
+			log.info("submitting create moto request for validation");
+
+			if (validator.validateTruck(vehicleRequest)) {
+				log.info("Validation for new truck entry has completed successfully");
+				vehicleDAO.saveVehicle(vehicleRequest);
+				return "Truck entry for " + vehicleRequest.getMake() + " " + vehicleRequest.getModel()
+						+ " has persisted successfully for " + user;
+			} else {
+				return "Data for truck entry did not pass validation... this truck will not be added.";
+			}
+		} else {
+			return "Did not find " + user + " in the db... this truck cannot be added.";
 		}
 	}
 

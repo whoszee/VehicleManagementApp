@@ -70,6 +70,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
+	// Returns true if the username already exists in db
 	public boolean checkUsernameExists(String userName) {
 		MongoClient mongoClient = null;
 		try {
@@ -81,6 +82,9 @@ public class UserDAOImpl implements UserDAO {
 			FindIterable<Document> search = coll.find(query);
 
 			if (search.iterator().hasNext()) {
+				log.info("username exists");
+				return true;
+			} else {
 				return false;
 			}
 
@@ -94,9 +98,9 @@ public class UserDAOImpl implements UserDAO {
 			log.error("Illegal argument exception...");
 			e.printStackTrace();
 		} finally {
-			log.info("username existence check has completed sucessfully");
 			mongoClient.close();
 		}
-		return true;
+		return false;
+		
 	}
 }

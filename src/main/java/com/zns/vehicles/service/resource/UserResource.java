@@ -74,19 +74,42 @@ public class UserResource {
 	@POST
 	// @Produces("text/html")
 	public String createNewUser(@RequestBody String userRequest) {
-		
+
 		log.info("Creating new user... >>>>>>>>> ");
-		
+
 		return service.createUser(reqDeserializer.convertUserRequest(userRequest));
 	}
 
-	@Path("/{username}/vehicles/create")
+	@Path("/{username}/vehicles/create/car")
 	@POST
-	@Produces("text/html")
-	public String createNewVehicle(@PathParam("username") String userName, @RequestBody String vehicleRequest) {
+	// @Produces("text/html")
+	public String createNewCar(@PathParam("username") String userName, @RequestBody String vehicleRequest) {
 
-		log.info("Creating new vehicle entry... >>>>>>>>>>>");
+		log.info("Creating new car entry for >>>>>>>>>>>" + userName);
 
-		return userName + "'s vehicle entry has been created...";
+		return service.createVehicle(userName, reqDeserializer.convertCarRequest(vehicleRequest));
+		// return userName + "'s vehicle entry has been created...";
+	}
+
+	@Path("/{username}/vehicles/create/truck")
+	@POST
+
+	public String createNewTruck(@PathParam("username") String userName, @RequestBody String vehicleRequest) {
+
+		log.info("Creating new truck entry for >>>>>>>>>>>" + userName);
+
+		return service.createVehicle(userName, reqDeserializer.convertTruckRequest(vehicleRequest));
+		// return userName + "'s vehicle entry has been created...";
+	}
+
+	@Path("/{username}/vehicles/create/motorcycle")
+	@POST
+
+	public String createNewMotorcycle(@PathParam("username") String userName, @RequestBody String vehicleRequest) {
+
+		log.info("Creating new motorcycle entry for >>>>>>>>>>>" + userName);
+
+		return service.createVehicle(userName, reqDeserializer.convertMotoRequest(vehicleRequest));
+		// return userName + "'s vehicle entry has been created...";
 	}
 }
