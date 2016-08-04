@@ -8,6 +8,7 @@ Features:
   Data Validations<br>
   Error handling<br>
   Full CRUD w/ mongoDb (WIP)<br>
+  Generate ID from sequence collection<br>
 
 Change log:
 
