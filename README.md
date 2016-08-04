@@ -24,7 +24,7 @@ This application is currently in progess.
 <b>Completed POST API</b>
   > Create new user
 
-<b>Pending API's:</b>
+<b>Pending API's:</b><br>
 <i>GET all vehicles for user<br>
 GET cars for user<br>
 GET trucks for user<br>
