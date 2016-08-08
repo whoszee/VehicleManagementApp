@@ -1,8 +1,31 @@
 package com.zns.vehicles.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement()
 public class Car {
 
+	@Override
+	public String toString() {
+		return "Car [_id=" + _id + ", vehicleType=" + vehicleType + ", username=" + username + ", make=" + make
+				+ ", model=" + model + ", year=" + year + ", exteriorColor=" + exteriorColor + ", interiorColor="
+				+ interiorColor + ", doors=" + doors + ", mileage=" + mileage + ", drivetrain=" + drivetrain
+				+ ", licenseClass=" + licenseClass + ", transmission=" + transmission + ", cylinderCount="
+				+ cylinderCount + ", fuelType=" + fuelType + "]";
+	}
+
+	private String _id;
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+
 	private String vehicleType;
+
 	public String getVehicleType() {
 		return vehicleType;
 	}
@@ -11,22 +34,14 @@ public class Car {
 		this.vehicleType = vehicleType;
 	}
 
-	private String userName;
-	public String getUserName() {
-		return userName;
+	private String username;
+
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	private String vehicleId;
-	public String getVehicleId() {
-		return vehicleId;
-	}
-
-	public void setVehicleId(String object) {
-		this.vehicleId = object;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	private String make;
@@ -138,13 +153,4 @@ public class Car {
 		this.fuelType = fuelType;
 	}
 
-	@Override
-	public String toString() {
-		return "Car [make=" + make + ", model=" + model + ", year=" + year + ", exteriorColor=" + exteriorColor
-				+ ", interiorColor=" + interiorColor + ", doors=" + doors + ", mileage=" + mileage + ", drivetrain="
-				+ drivetrain + ", licenseClass=" + licenseClass + ", transmission=" + transmission + ", cylinderCount="
-				+ cylinderCount + ", fuelType=" + fuelType + "]";
-	}
-
-	
 }

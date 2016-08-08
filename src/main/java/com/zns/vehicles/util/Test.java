@@ -1,33 +1,74 @@
 package com.zns.vehicles.util;
 
+import java.util.ArrayList;
+
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientException;
+import com.mongodb.MongoException;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
+import com.zns.vehicles.model.RetrievalRequest;
 
 public class Test {
 
-	private final static String HOST = "mongo.host";
-	private final static String PORT = "mongo.port";
-	private final static String DB = "mongo.db";
-	private final static String USER = "mongo.collection.user";
+	private final static String HOST = "localhost";
+	private final static Integer PORT = 27017;
 
 	public static void main(String[] args) {
-		PropReader props = new PropReader();
 
-		MongoClient mongoClient = new MongoClient(props.getProperty(HOST), 27017);
-		MongoDatabase db = mongoClient.getDatabase(props.getProperty(DB));
-System.out.println(props.getProperty(DB));
-		db.getCollection(props.getProperty(USER)).insertOne(new Document("username", "username")
-				.append("password", "username").append("FirstName", "username")
-				.append("LastName", "username")
-				.append("DOB", "username").append("Zip", "username")
-				.append("email", "username"));
+		RetrievalRequest request = new RetrievalRequest();
+		request.setUserName("mzeeshan49");
+		request.setVehicleType("car");
 		
-		//System.out.println(Integer.valueOf(props.getProperty(PORT)));
-		System.out.println("completed .........................");
+		System.out.println(dbGetUtil(request));
+				
+	}
+
+	private static ArrayList<String> dbGetUtil(RetrievalRequest requestPartial) {
+
+		MongoClient mongoClient = null;
+		ArrayList<String> results = new ArrayList<String>();
+
+		PropReader props = null;
+
+		try {
+			mongoClient = new MongoClient(HOST, PORT);
+			MongoDatabase db = mongoClient.getDatabase("vehicleApp");
+
+			System.out.println("querying this collection >>>>>>>>>>>>>>>>>>>>>>>>>> " + db.getCollection("vehicles"));
+
+			FindIterable<Document> iterable = db.getCollection("vehicles")
+					.find(new Document("username", requestPartial.getUserName()).append("vehicleType",
+							requestPartial.getVehicleType()));
+
+			iterable.forEach(new Block<Document>() {
+				@Override
+				public void apply(final Document document) {
+					System.out.println("result>>>>>>>>>>>>>> " + document.toString());
+					results.add(document.toString());
+				}
+			});
+
+		} catch (MongoClientException e) {
+			System.out.println("Error while connecting to DB...");
+			e.printStackTrace();
+		} catch (MongoException e) {
+			System.out.println("General mongo error");
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			System.out.println("Illegal argument exception...");
+			e.printStackTrace();
+		} finally {
+			// log.info("submitted request has been persisted successfully");
+			//mongoClient.close();
+		}
+		System.out.println("arraylist contents for search::::::::: " + results.size());
+		return results;
 	}
 }

@@ -1,8 +1,18 @@
 package com.zns.vehicles.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement()
 public class Motorcycle {
 
-	private String userName;
+	@Override
+	public String toString() {
+		return "Motorcycle [username=" + username + ", vehicleType=" + vehicleType + ", make=" + make + ", model="
+				+ model + ", year=" + year + ", color=" + color + ", licenseClass=" + licenseClass + ", transmission="
+				+ transmission + ", fuelType=" + fuelType + ", mileage=" + mileage + ", _id=" + _id + "]";
+	}
+
+	private String username;
 	private String vehicleType;
 
 	public String getVehicleType() {
@@ -13,22 +23,12 @@ public class Motorcycle {
 		this.vehicleType = vehicleType;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	private String vehicleId;
-
-	public String getVehicleId() {
-		return vehicleId;
-	}
-
-	public void setVehicleId(String object) {
-		this.vehicleId = object;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	private String make;
@@ -104,10 +104,13 @@ public class Motorcycle {
 		this.mileage = mileage;
 	}
 
-	@Override
-	public String toString() {
-		return "Motorcycle [make=" + make + ", model=" + model + ", year=" + year + ", color=" + color
-				+ ", licenseClass=" + licenseClass + ", transmission=" + transmission + ", fuelType=" + fuelType
-				+ ", mileage=" + mileage + "]";
+	private String _id;
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 }

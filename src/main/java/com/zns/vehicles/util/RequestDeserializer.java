@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zns.vehicles.model.Car;
 import com.zns.vehicles.model.Motorcycle;
+import com.zns.vehicles.model.RetrievalResponse;
 import com.zns.vehicles.model.Truck;
 import com.zns.vehicles.model.User;
 
@@ -18,7 +19,7 @@ public class RequestDeserializer {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 	private User request;
-	private Car carRequest;
+	private Car carRequest = new Car();
 	private Truck truckRequest;
 	private Motorcycle motoRequest;
 	

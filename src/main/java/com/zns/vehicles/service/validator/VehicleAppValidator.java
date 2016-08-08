@@ -18,11 +18,16 @@ public class VehicleAppValidator {
 
 	UserDAO dao = new UserDAOImpl();
 
+	private static final String CAR = "car";
+	private static final String TRUCK = "truck";
+	private static final String MOTO = "motorcycle";
+	private static final String ALL = "all";
+
 	public boolean validateNewUser(User userRequest) {
 
 		try {
 
-			if (!usernameValidation(userRequest.getUsername()) && validateName(userRequest.getPersonLName())
+			if (!usernameValidation(userRequest.get_id()) && validateName(userRequest.getPersonLName())
 					&& validateName(userRequest.getPersonFName()) && validatePassword(userRequest.getPassword())
 					&& validateZip(userRequest.getPersonZipCode()) && isValidEmailAddress(userRequest.getPersonEmail())
 					&& validateDate(userRequest.getPersonDOB())) {
@@ -41,7 +46,8 @@ public class VehicleAppValidator {
 		try {
 			if (request != null && !request.getMake().isEmpty() && request.getCylinderCount() > 1
 					&& request.getDoors() > 1 && !request.getDrivetrain().isEmpty()
-					&& !request.getExteriorColor().isEmpty() && !request.getInteriorColor().isEmpty()) {
+					&& !request.getExteriorColor().isEmpty() && !request.getInteriorColor().isEmpty()
+					&& !request.get_id().isEmpty() && !request.getVehicleType().isEmpty()) {
 				return true;
 			}
 		} catch (NullPointerException e) {
@@ -57,7 +63,8 @@ public class VehicleAppValidator {
 			if (request != null && !request.getMake().isEmpty() && request.getCylinderCount() > 1
 					&& request.getDoors() > 1 && !request.getDrivetrain().isEmpty()
 					&& !request.getExteriorColor().isEmpty() && !request.getInteriorColor().isEmpty()
-					&& !request.getVehicleClassification().isEmpty() && usernameValidation(request.getUserName())) {
+					&& !request.getVehicleClassification().isEmpty() && usernameValidation(request.getUsername())
+					&& !request.get_id().isEmpty() && !request.getVehicleType().isEmpty()) {
 				return true;
 			}
 		} catch (NullPointerException e) {
@@ -71,8 +78,9 @@ public class VehicleAppValidator {
 
 		try {
 			if (request != null && !request.getLicenseClass().isEmpty() && !request.getMake().isEmpty()
-					&& !request.getModel().isEmpty() && request.getUserName() != null
-					&& usernameValidation(request.getUserName())) {
+					&& !request.getModel().isEmpty() && request.getUsername() != null
+					&& usernameValidation(request.getUsername()) && !request.get_id().isEmpty()
+					&& !request.getVehicleType().isEmpty()) {
 				return true;
 			}
 		} catch (NullPointerException e) {
@@ -136,5 +144,23 @@ public class VehicleAppValidator {
 			log.error("Invalid DOB. Should be in 'dd-MM-yyyy' format.");
 			return false;
 		}
+	}
+
+	public boolean validateVehicleType(String vehicleType) {
+
+		if (vehicleType.equalsIgnoreCase(ALL) || vehicleType.equalsIgnoreCase(CAR) || vehicleType.equalsIgnoreCase(TRUCK) || vehicleType.equalsIgnoreCase(MOTO)) {
+			log.info("Vehicle type is valid");
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public String vehicleIdValidator(String currentVehicleId) {
+		String newVehicleId = null;
+		if (currentVehicleId.endsWith(".0")) {
+			newVehicleId = (currentVehicleId.substring(0, currentVehicleId.length() - 2));
+		}
+		return newVehicleId;
 	}
 }

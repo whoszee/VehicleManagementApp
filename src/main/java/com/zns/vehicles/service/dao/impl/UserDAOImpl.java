@@ -37,7 +37,7 @@ public class UserDAOImpl implements UserDAO {
 	public void saveUser(User userRequest) {
 		// TODO Auto-generated method stub
 
-		Document doc = new Document("username", userRequest.getUsername()).append("password", userRequest.getPassword())
+		Document doc = new Document("_id", userRequest.get_id()).append("password", userRequest.getPassword())
 				.append("FirstName", userRequest.getPersonFName()).append("LastName", userRequest.getPersonLName())
 				.append("DOB", userRequest.getPersonDOB()).append("Zip", userRequest.getPersonZipCode())
 				.append("email", userRequest.getPersonEmail());
@@ -78,7 +78,7 @@ public class UserDAOImpl implements UserDAO {
 			MongoDatabase db = mongoClient.getDatabase("vehicleApp");
 			MongoCollection<Document> coll = db.getCollection("user");
 
-			Document query = new Document("username", userName);
+			Document query = new Document("_id", userName);
 			FindIterable<Document> search = coll.find(query);
 
 			if (search.iterator().hasNext()) {

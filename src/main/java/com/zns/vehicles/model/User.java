@@ -2,18 +2,26 @@ package com.zns.vehicles.model;
 
 public class User {
 
-	private String username;
-	
+	private String _id;
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+
 	private String password;
-	
+
 	private String personFName;
-	
+
 	private String personLName;
-	
+
 	private String personDOB;
-	
+
 	private String personEmail;
-	
+
 	private String personZipCode;
 
 	public String getPersonZipCode() {
@@ -22,14 +30,6 @@ public class User {
 
 	public void setPersonZipCode(String personZipCode) {
 		this.personZipCode = personZipCode;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getPassword() {
@@ -71,11 +71,5 @@ public class User {
 	public void setPersonEmail(String personEmail) {
 		this.personEmail = personEmail;
 	}
-	
-	@Override
-	public String toString() {
-		return "CreateUserRequest [username=" + username + ", password=" + password + ", personFName=" + personFName
-				+ ", personLName=" + personLName + ", personDOB=" + personDOB + ", personEmail=" + personEmail
-				+ ", personZipCode=" + personZipCode + "]";
-	}
+
 }

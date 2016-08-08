@@ -1,5 +1,7 @@
 package com.zns.vehicles.service.resource;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,10 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.sun.jersey.spi.inject.Inject;
+import com.zns.vehicles.model.RetrievalRequest;
+import com.zns.vehicles.model.RetrievalResponse;
 import com.zns.vehicles.model.User;
 import com.zns.vehicles.service.api.VehicleAppService;
 import com.zns.vehicles.service.api.impl.VehicleAppServiceImpl;
 import com.zns.vehicles.util.RequestDeserializer;
+import com.zns.vehicles.util.ResponseSerializer;
 
 @Path("/user")
 @Produces("application/json")
@@ -33,6 +38,7 @@ public class UserResource {
 	private VehicleAppService service = (VehicleAppService) new VehicleAppServiceImpl();
 	private User request;
 	RequestDeserializer reqDeserializer = new RequestDeserializer();
+	ResponseSerializer resSerializer = new ResponseSerializer();
 
 	@Path("/hello")
 	@GET
@@ -95,7 +101,8 @@ public class UserResource {
 		return service.createVehicle(userName, reqDeserializer.convertMotoRequest(vehicleRequest));
 	}
 
-	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PENDING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> IN PROGRESS
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
 	// RETRIEVE SPECIFIED VEHICLES FOR SPECIFIED USER
 	// INPUT >>
 	// PATH : USERNAME
@@ -103,18 +110,28 @@ public class UserResource {
 	// ALL || CARS || TRUCKS || MOTORCYCLES
 	@Path("/{username}/vehicles/{vehicleType}")
 	@GET
-	@Produces("text/html")
 	public String getVehiclesForUser(@PathParam("username") String userName, @PathParam("vehicleType") String type) {
 
-		if (type.equalsIgnoreCase("all")) {
-			log.info("Retrieving all vehicles for >>>>>>>>" + userName);
-			return null;
-			
-		} else {
+		final RetrievalRequest request = new RetrievalRequest();
+		RetrievalResponse finalResponse = new RetrievalResponse();
 
-			log.info("Retrieving all " + type.toLowerCase() + "'s for >>>>>>>>" + userName);
-			return null;
+		request.setUserName(userName);
+		request.setVehicleType(type);
+
+		if (type.equalsIgnoreCase("all") || type.equalsIgnoreCase("car") || type.equalsIgnoreCase("truck")
+				|| type.equalsIgnoreCase("motorcycle")) {
+			log.info("Retrieving vehicle type:: " + type + " for >>>>>>>>" + userName);
+
+			return resSerializer.convertResponse(service.getVehiclesForUser(request));
+
+		} else {
+			log.info("Vehicle type not acceptable for request:: " + request.getVehicleType().toLowerCase()
+					+ "+  USER::: " + userName);
+			log.info("in resource method...........................................");
+
 		}
+
+		return resSerializer.convertResponse(finalResponse);
 	}
 
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PENDING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
@@ -150,7 +167,7 @@ public class UserResource {
 	// INPUT >>
 	// PATH : USERNAME
 	@Path("/{username}/vehicles/delete")
-	@GET
+	@DELETE
 	public String deleteAllVehiclesForUser(@PathParam("username") String userName) {
 
 		log.info(">>> DELETING ALL VEHICLES FOR >>>>>>>> " + userName.toUpperCase());
