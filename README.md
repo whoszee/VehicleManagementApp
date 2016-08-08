@@ -1,6 +1,6 @@
 # VehicleManagementApp
 
-This is a full stack application utilizing an AngularJS Front (TODO), Jersey WS implementation, and MongoDB. 
+This is a complete application utilizing an AngularJS Front (TODO), Jersey WS implementation, and MongoDB. 
 This application is currently in progess.
 
 <b>Features:</b><br><br>
@@ -11,6 +11,12 @@ This application is currently in progess.
   Generate ID from sequence collection<br></i>
 
 <b>Update log:</b>
+
+<b><i>8/8/2016</b></i>
+
+<b>Completed GET API</b>
+  > Retrieve cars/trucks/motorcycles for user<br>
+  > Retrieve all vehicles for user<br>
 
 <b><i>8/4/2016</b></i>
 
@@ -25,17 +31,12 @@ This application is currently in progess.
   > Create new user
 
 <b>Pending API's:</b><br><br>
-<i>GET all vehicles for user<br>
-GET cars for user<br>
-GET trucks for user<br>
-GET motorcycles for user<br>
 
 UPDATE user details<br>
-UPDATE car details for user<br>
-UPDATE truck details for user<br>
-UPDATE motorcycle details for user<br>
+UPDATE specific vehicle details for user<br>
+UPDATE user details<br>
 
 DELETE user<br>
-DELETE car for user<br>
-DELETE truck for user<br>
-DELETE motorcycle for user<br>
+DELETE all vehicles for user<br>
+DELETE specific vehicle user<br>
+
